@@ -18,3 +18,5 @@ function cutUp(oldString)
   end
   return newTable
 end
+
+alpha = cutUp(alpha)
