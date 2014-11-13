@@ -8,7 +8,7 @@ Make sure your text only includes characters specified in the alphabet.
 arg = {...}
 file = arg[1]
 
-alpha = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"
+alpha = [=[abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890]=]
 function cutUp(oldString) 
   local newString = ""
   local newTable = {}
