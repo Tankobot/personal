@@ -32,4 +32,6 @@ alpha = cutUp(alpha)
 
 key = arg[2]
 
---TODO
+function encode() 
+  --TODO
+end
