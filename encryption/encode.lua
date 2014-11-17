@@ -16,7 +16,7 @@ file = arg[1]
 if arg[3] ~= nil then 
   alpha = arg[3] 
 else 
-  alpha = [=[abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890]=]
+  alpha = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"
   function cutUp(oldString) 
     local newString = ""
     local newTable = {}
