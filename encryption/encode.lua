@@ -8,7 +8,7 @@ Make sure your text only includes characters specified in the alphabet.
 arg = {...}
 
 if #arg < 2 then
-  error(0,"Encode usage: encode <string> <key> [table]")
+  error(0,"Encode usage: encode <string> <key> \[table\]")
 end
 
 file = arg[1]
@@ -16,7 +16,7 @@ file = arg[1]
 if arg[3] ~= nil then 
   alpha = arg[3] 
 else 
-  alpha = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890"
+  alpha = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890~!@#$%^&*()-=_+"
   function cutUp(oldString) 
     local newString = ""
     local newTable = {}
