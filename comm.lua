@@ -7,23 +7,23 @@ print("The Communications API is loading...")
 
 modem = nil
 local SSL 
-local trusted 
+local meta 
 local html 
 local info 
 
 function authWeb(certHost,websiteIP)
 	--todo
-	return SSL, trusted
+	return SSL, meta
 end
 
 function getWeb(ip) 
 	
-	return html
+	return html, meta 
 end 
 
 function postWeb(ip,data) 
 	
-	return info
+	return info, meta 
 end 
 
 function wrap(side) 
