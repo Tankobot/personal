@@ -5,7 +5,7 @@ Version: 1.0
 
 print("The Communications API is loading...")
 
-modem = nil
+local modem = nil
 local SSL 
 local meta 
 local html 
