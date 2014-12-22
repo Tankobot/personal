@@ -1,5 +1,5 @@
 --BMOS Image Codec 
-colorKey = {
+local colorKey = {
     ["0"] = colors.white,
     ["1"] = colors.orange, 
     ["2"] = colors.magenta,
@@ -19,12 +19,12 @@ colorKey = {
 }
 
 --Converter 
-function convert(colorV) 
+local function convert(colorV) 
     return colorKey[colorV]
 end
 
 --Decode String to Table 
-function decode(stringFile) 
+local function decode(stringFile) 
     local theTable = {} 
     local globalIndex = 0 
     local BGV,FGV,CVV 
@@ -62,11 +62,11 @@ function decode(stringFile)
 end
 
 --Encode Table to String 
-function encode(tableFile) 
+local function encode(tableFile) 
     --TODO 
 end
 
-function printCCI(tableFile,x,y)
+local function printCCI(tableFile,x,y)
     for i=1,#tableFile do 
         term.setCursorPos(x,y-1+i)
         for j=1,#tableFile[i] do 
@@ -76,3 +76,11 @@ function printCCI(tableFile,x,y)
         end
     end
 end
+
+codec = {
+	colorkey=colorkey,
+	convert=convert,
+	decode=decode,
+	encode=encode,
+	printCCI
+}
