@@ -7,7 +7,7 @@ arg={...}
 --Specifying APIs by name. 
 lib = "usr/lib/"
 apis = {
-	"argSorter.lib"
+	"bankFunc.lua"
 }
 
 --Loading required APIs. 
@@ -17,20 +17,20 @@ end
 
 --Check for the add command. 
 if arg[1] == "add" then 
-	
+	bank.add(arg)
 end
 
 --Check for the sub command. 
 if arg[1] == "sub" then 
-	
+	bank.sub(arg)
 end
 
 --Check for the transfer command. (i.e. tran) 
-if arg[1] == "tran" then 
-	
+if arg[1] == "trans" then 
+	--TODO
 end
 
 --Check for the status command. 
 if arg[1] == "status" then 
-	
+	--TODO
 end
