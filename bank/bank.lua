@@ -4,6 +4,17 @@ This is the United Bank administrator shell.
 
 arg={...}
 
+--Specifying APIs by name. 
+lib = "usr/lib/"
+apis = {
+	"argSorter.lib"
+}
+
+--Loading required APIs. 
+for i=1,#apis do
+	assert(pcall(dofile(lib..apis[i])),"The library "..apis[i].." did not load correctly or does not exist.")
+end
+
 --Check for the add command. 
 if arg[1] == "add" then 
 	
