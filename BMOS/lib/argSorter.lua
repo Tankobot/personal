@@ -20,3 +20,5 @@ local function argSort(argA)
 	end
 	return argB
 end
+
+return argSort
