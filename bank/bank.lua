@@ -12,7 +12,7 @@ apis = {
 
 --Loading required APIs. 
 for i=1,#apis do
-	assert(pcall(dofile(lib..apis[i])),"The library "..apis[i].." did not load correctly or does not exist.")
+	dofile(lib..apis[i])--,"The library "..apis[i].." did not load correctly or does not exist.")
 end
 
 --Check for the add command. 
@@ -27,7 +27,7 @@ end
 
 --Check for the transfer command. (i.e. tran) 
 if arg[1] == "trans" then 
-	--TODO
+	bank.trans(arg)
 end
 
 --Check for the status command. 
