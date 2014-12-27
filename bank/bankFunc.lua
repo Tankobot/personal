@@ -4,6 +4,14 @@ Title: Bank API
 Description: List of functions that the bank will commonly use to manage account information. 
 --]]
 
+local function hashLine(path)
+	file = fs.open(path, "a")
+	file.writeLine()
+	file.writeLine(string.rep("#", 10))
+	file.writeLine()
+	file.close()
+end
+
 local function add(argList)
 	assert(#argList >= 3, "Not enough parameters.")
 	user = argList[2] --User var
@@ -106,8 +114,19 @@ local function trans(argList)
 		user2File.writeLine("Transfer from "..user1.." to "..user2..":")
 		user2File.close()
 	end
-	add(addTab)
-	sub(subTab)
+	check = pcall(sub(subTab))
+	if check == false then 
+		local user1File = fs.open("history/"..user1..".log","a")
+		user1File.writeLine("Transfer failed.")
+		user1File.close()
+		hashLine("history/"..user1..".log","a")
+		local user2File = fs.open("history/"..user2..".log","a")
+		user2File.writeLine("Transfer failed.")
+		user2File.close()
+		hashLine("history/"..user2..".log","a")
+	elseif check == true then 
+		add(addTab)
+	end
 end
 
 bank = {
