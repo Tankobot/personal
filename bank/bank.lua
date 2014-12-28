@@ -33,5 +33,5 @@ end
 
 --Check for the status command. 
 if arg[1] == "status" then 
-	--TODO
+	bank.status(arg)
 end

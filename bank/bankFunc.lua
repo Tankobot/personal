@@ -4,12 +4,43 @@ Title: Bank API
 Description: List of functions that the bank will commonly use to manage account information. 
 --]]
 
-local function hashLine(path)
-	file = fs.open(path, "a")
+local function hashLine(file)
 	file.writeLine()
 	file.writeLine(string.rep("#", 10))
 	file.writeLine()
-	file.close()
+end
+
+local function timeWrite(file)
+	day = os.day()
+	tick = os.time()
+	file.writeLine("Day: "..day)
+	file.writeLine("Tick: "..tick)
+end	
+
+local function log(path, user, amount, balance)
+	logWrite = fs.open(path, "a")
+	logWrite.writeLine(user)
+	logWrite.writeLine("Add: "..amount)
+	logWrite.writeLine("Balance: "..balance+amount)
+	timeWrite(logWrite)
+	hashLine(logWrite)
+	logWrite.close()
+end
+
+local function readAccount(user)
+	account = fs.open("users/"..user..".dat","r")
+	account.readLine() --Amount is stored on second line. 
+	balance = account.readLine() --Balance var 
+	balance = tonumber(balance)
+	account.close()
+	return balance
+end
+
+local function writeAccount(user, balance, amount)
+	account = fs.open("users/"..user..".dat","w")
+	account.writeLine(user)
+	account.writeLine(balance+amount)
+	account.close()
 end
 
 local function add(argList)
@@ -18,30 +49,12 @@ local function add(argList)
 	amount = tonumber(argList[3]) --Amount var
 	assert(type(amount) == "number", "Amount is not a number.")
 	assert(amount > 0, "Amount needs to be greater than zero.")
-	--Open user file for reading. 
-	userRead = fs.open("users/"..user..".dat","r")
-	userRead.readLine() --Amount is stored on second line. 
-	balance = userRead.readLine() --Balance var 
-	balance = tonumber(balance)
-	userRead.close()
-	--Open user file for writing. 
-	userWrite = fs.open("users/"..user..".dat","w")
-	userWrite.writeLine(user)
-	userWrite.writeLine(balance+amount)
-	userWrite.close()
-	--Logging transaction. 
-	logWrite = fs.open("history/"..user..".log","a")
-	logWrite.writeLine(user)
-	logWrite.writeLine("Add: "..amount)
-	logWrite.writeLine("Balance: "..balance+amount)
-	day = os.day()
-	tick = os.time()
-	logWrite.writeLine("Day: "..day)
-	logWrite.writeLine("Tick: "..tick)
-	logWrite.writeLine() --Adding space before hashes. 
-	logWrite.writeLine(string.rep("#",10))
-	logWrite.writeLine() --Adding space after hashes. 
-	logWrite.close()
+	--Reading user dat file. 
+	balance = readAccount(user)
+	--Writing to dat file. 
+	writeAccount(user, balance, amount)
+	--Logging operation. 
+	log("history/"..user..".log", user, amount, balance)
 end
 
 local function sub(argList) 
@@ -56,32 +69,14 @@ local function sub(argList)
 		f_flag = true 
 	end
 	--Open user file for reading. 
-	userRead = fs.open("users/"..user..".dat","r")
-	userRead.readLine() --Amount is stored on second line. 
-	balance = userRead.readLine() --Balance var 
-	balance = tonumber(balance)
-	userRead.close()
+	balance = readAccount(user)
 	--Open user file for writing. 
 	if balance-amount<0 then
 		assert(f_flag == true,"Subtracting amount will result in balance less than zero. Use flag <-f> after command.")
 	end
-	userWrite = fs.open("users/"..user..".dat","w")
-	userWrite.writeLine(user)
-	userWrite.writeLine(balance-amount)
-	userWrite.close()
+	writeAccount(user, balance, amount*-1)
 	--Logging transaction. 
-	logWrite = fs.open("history/"..user..".log","a")
-	logWrite.writeLine(user)
-	logWrite.writeLine("Sub: "..amount)
-	logWrite.writeLine("Balance: "..balance-amount)
-	day = os.day()
-	tick = os.time()
-	logWrite.writeLine("Day: "..day)
-	logWrite.writeLine("Tick: "..tick)
-	logWrite.writeLine() --Adding space before hashes. 
-	logWrite.writeLine(string.rep("#",10))
-	logWrite.writeLine() --Adding space after hashes. 
-	logWrite.close()
+	log("history/"..user..".log", user, amount, balance)
 end
 
 --User1 sends money to user2. 
@@ -117,23 +112,40 @@ local function trans(argList)
 	check, msg = pcall(sub, subTab)
 	if check == false then 
 		local user1File = fs.open("history/"..user1..".log","a")
+		timeWrite(user1File)
 		user1File.writeLine("Transfer failed.")
+		hashLine(user1File)
 		user1File.close()
-		hashLine("history/"..user1..".log","a")
 		local user2File = fs.open("history/"..user2..".log","a")
+		timeWrite(user2File)
 		user2File.writeLine("Transfer failed.")
+		hashLine(user2File)
 		user2File.close()
-		hashLine("history/"..user2..".log","a")
 		error(msg,0)
 	elseif check == true then 
 		add(addTab)
 	end
 end
 
+local function status()
+	users = fs.list("users/")
+	--logFile = fs.open("
+	for i=1,#users do 
+		file = fs.open("users/"..users[i], "r")
+		name = file.readLine()
+		balance = file.readLine()
+		file.close()
+		if (name) or (balance) then 
+			print(name.."   "..balance)
+		end
+	end --TODO
+end
+
 bank = {
 	add = add,
 	sub = sub,
-	trans = trans
+	trans = trans,
+	status = status
 }
 
 return bank 
