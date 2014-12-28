@@ -4,21 +4,30 @@ Title: Argument Sorting Function
 Author: Tankobot (Michael Bradley) 
 --]]
 
-local function argSort(argA)
-	local argB = {}
-	local i=1
-	while i < #argA do 
-		if not string.fing("-",argA[i]) then 
-			argB[tostring(argA[i])]=argA[i+1]
-			i=i+3
-			j=j+1
-		else
-			argB[j]=argA[i]
-			i=i+1
-			j=j+1
+local function argSorting(oldArg)
+	newArg = {}
+	for i=1, #oldArg do 
+		--Checking for double hyphen options. 
+		if string.find(oldArg[i],"%-%-")==1 then 
+			option = string.sub(oldArg[i],3)
+			newArg[option]=i+1
+		--Checking for multiple single hyphen options. 
+		elseif string.find(oldArg[i],"-")==1 then
+			fullString = oldArg[i]
+			for j=1, #fullString do 
+				fullString = string.sub(fullString,2)
+				option = string.sub(fullString,1,1)
+				newArg[option]=i+1
+			end
+		--Assigning regular arguments to normal slots. 
+		else 
+			newArg[i]=oldArg[i]
 		end
 	end
-	return argB
+	newArg[""] = nil
+	return newArg
 end
+
+argSort = argSorting
 
 return argSort
