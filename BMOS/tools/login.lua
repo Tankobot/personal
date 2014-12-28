@@ -5,7 +5,7 @@ Description: Login Utility is a simple shell program used to let the OS understa
 
 arg = {...}
 
-assert(not arg[1], "User not specified.")
+assert(arg[1], "User not specified.")
 username = arg[1]
 term.write("Password: ")
 password = read("")
