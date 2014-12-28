@@ -114,7 +114,7 @@ local function trans(argList)
 		user2File.writeLine("Transfer from "..user1.." to "..user2..":")
 		user2File.close()
 	end
-	check = pcall(sub(subTab))
+	check, msg = pcall(sub, subTab)
 	if check == false then 
 		local user1File = fs.open("history/"..user1..".log","a")
 		user1File.writeLine("Transfer failed.")
@@ -124,6 +124,7 @@ local function trans(argList)
 		user2File.writeLine("Transfer failed.")
 		user2File.close()
 		hashLine("history/"..user2..".log","a")
+		error(msg,0)
 	elseif check == true then 
 		add(addTab)
 	end

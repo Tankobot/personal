@@ -3,6 +3,7 @@ This is the United Bank administrator shell.
 --]]
 
 arg={...}
+assert(arg[1], "No arguments have been given.")
 
 --Specifying APIs by name. 
 lib = "usr/lib/"
