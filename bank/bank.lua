@@ -6,14 +6,16 @@ arg={...}
 assert(arg[1], "No arguments have been given.")
 
 --Specifying APIs by name. 
-lib = "usr/lib/"
+lib = "lib/"
 apis = {
-	"bankFunc.lua"
+	"bankFunc.lua",
+	"argSorter.lua"
 }
 
 --Loading required APIs. 
 for i=1,#apis do
-	dofile(lib..apis[i])--,"The library "..apis[i].." did not load correctly or does not exist.")
+	correct = pcall(dofile,lib..apis[i])
+	assert(correct,"The library "..apis[i].." did not load correctly or does not exist.")
 end
 
 --Check for the add command. 
