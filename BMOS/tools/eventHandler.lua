@@ -22,6 +22,7 @@ local admin = {}
 
 function admin.add(path, name)
 	local newFunc = loadfile(path)
+	assert(name ~= "current", "Tried to create thread with reserved name",0)
 	task[name] = coroutine.create(newFunc)
 end
 
@@ -30,6 +31,9 @@ function admin.run(coro, ...)
 	local result = {coroutine.resume(coro, unpack(arg))}
 	local dump = table.remove(result, 1)
 	local eventType = table.remove(result, 1)
+	if not dump then 
+		error(eventType, 0)
+	end
 	return eventType, result
 end
 
@@ -41,6 +45,14 @@ end
 
 function admin.exit()
 	error("Closing task manager...", 0)
+end
+
+function admin.current(newTask)
+	if newTask then 
+		task.current = newTask
+	else
+		return task.current
+	end
 end
 
 
