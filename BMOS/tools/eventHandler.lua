@@ -41,14 +41,24 @@ end
 
 --Function to collect and delete finished/dead threads. 
 function admin.garbage()
-	--TODO
+	local threads = admin.listGet()
+	for i=1, #threads do 
+		check = coroutine.status(task[threads[i]])
+		if check == "dead" then
+			task[threads[i]] = nil
+		end
+	end
 end
 
 --Function to add coroutines to task list. 
 function admin.add(path, name)
 	local newFunc = loadfile(path)
-	assert(name ~= "current", "Tried to create thread with reserved name",0)
-	task[name] = coroutine.create(newFunc)
+	assert(name ~= "master", "Tried to create thread with reserved name", 0)
+	if not task[name] then
+		task[name] = coroutine.create(newFunc)
+	else
+		error("A thread with name "..name.." already exists.", 0)
+	end
 end
 
 --Function to run coroutines and retrieve and perform small processing on outputs. 
