@@ -94,9 +94,14 @@ function admin.exit()
 	error("Closing task manager...", 0)
 end
 
-function admin.event(operation)
-	assert(operation, "Function admin.event requires operation argument.")
-	--TODO
+--Sets the current event object from an admin command. 
+function admin.event(...)
+	event = {...}
+end
+
+--Allows the admin to load a custom chunk. 
+function admin.loadString(block)
+	loadstring(block)
 end
 
 
