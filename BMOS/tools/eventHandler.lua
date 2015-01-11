@@ -17,15 +17,41 @@ task["master"] = coroutine.create(masterFunc)
 
 
 --Create admin table. 
---[[ Allows the task manager to add a coroutine to the list of running coroutines. ]]-- 
 local admin = {}
 
+--Function to set the currently running task. 
+function admin.current(newTask)
+	if newTask then 
+		current = newTask
+	else
+		return current
+	end
+end
+
+--Function to get the list of currently open threads. 
+function admin.listGet()
+	local task_info = {}
+	local count = 1
+	for i, v in pairs(task) do 
+		task_info[count] = i 
+		count = count+1
+	end
+	return task_info
+end
+
+--Function to collect and delete finished/dead threads. 
+function admin.garbage()
+	--TODO
+end
+
+--Function to add coroutines to task list. 
 function admin.add(path, name)
 	local newFunc = loadfile(path)
 	assert(name ~= "current", "Tried to create thread with reserved name",0)
 	task[name] = coroutine.create(newFunc)
 end
 
+--Function to run coroutines and retrieve and perform small processing on outputs. 
 function admin.run(coro, ...)
 	local arg = {...} 
 	local result = {coroutine.resume(coro, unpack(arg))}
@@ -37,29 +63,24 @@ function admin.run(coro, ...)
 	return eventType, result
 end
 
+--Combined function of admin.add and admin.run. 
 function admin.addR(path, name, ...)
 	admin.add(path, name)
 	local arg = {...}
 	return admin.run(task[name], unpack(arg))
 end
 
+--Closes the task manager. 
 function admin.exit()
 	error("Closing task manager...", 0)
-end
-
-function admin.current(newTask)
-	if newTask then 
-		task.current = newTask
-	else
-		return task.current
-	end
 end
 
 
 --Starting master program. 
 eType, extra = admin.run(task.master, "info", "master")
+admin.current("master")
 while true do
-	if eType == "admin" then --Checking for admin commands. 
+	if (eType == "admin") and (current == "master") then 
 		admin[extra[1]](unpack(extra, 2))
 	end
 	if coroutine.status(task.master) == "dead" then 
@@ -67,5 +88,5 @@ while true do
 	else
 		event = {os.pullEvent()}
 	end
-	eType, extra = admin.run(task.master, unpack(event))
+	eType, extra = admin.run(task[current], unpack(event))
 end
