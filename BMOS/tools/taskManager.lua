@@ -94,6 +94,11 @@ function admin.exit()
 	error("Closing task manager...", 0)
 end
 
+function admin.event(operation)
+	assert(operation, "Function admin.event requires operation argument.")
+	--TODO
+end
+
 
 --Starting master program. 
 eType, extra = admin.run(task.master, "info", "master")
