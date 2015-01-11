@@ -101,7 +101,8 @@ end
 
 --Allows the admin to load a custom chunk. 
 function admin.loadString(block)
-	loadstring(block)
+	local f = loadstring(block)
+	f()
 end
 
 
