@@ -73,6 +73,15 @@ function admin.run(coro, ...)
 	return eventType, result
 end
 
+--Protected version of admin.run function. 
+function admin.prun(coro, ...)
+	local arg = {...} 
+	local result = {coroutine.resume(coro, unpack(arg))}
+	local dump = table.remove(result, 1)
+	local eventType = table.remove(result, 1)
+	return dump, eventType, result
+end
+
 --Combined function of admin.add and admin.run. 
 function admin.addR(path, name, ...)
 	admin.add(path, name)
