@@ -118,5 +118,15 @@ while true do
 	else
 		event = {os.pullEvent()}
 	end
-	eType, extra = admin.run(task[current], unpack(event))
+	decision, extra = admin.run(task.master, "taskManager", 
+	current, unpack(event))
+	if decision == "true" then 
+		eType, extra = admin.run(task[current], unpack(event))
+	elseif decision == "admin" then 
+		admin[extra[1]](unpack(extra, 2))
+	elseif decision == "false" then 
+		eType, extra = admin.run(task[current], "false")
+	else 
+		error("\""..decision.."\" is not a proper condition for event checking.")
+	end
 end
