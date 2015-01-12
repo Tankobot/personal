@@ -127,6 +127,6 @@ while true do
 	elseif decision == "false" then 
 		eType, extra = admin.run(task[current], "false")
 	else 
-		error("\""..decision.."\" is not a proper condition for event checking.")
+		error("\""..decision.."\" is not a proper condition for event checking.", 0)
 	end
 end
