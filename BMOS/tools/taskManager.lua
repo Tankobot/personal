@@ -138,22 +138,26 @@ while true do
 	else
 		event = {os.pullEvent()}
 	end
-	decision, extra = admin.call(task.master, "taskManager", current, unpack(event))
-	if decision == "true" then 
-		if event[1] == "transfer" then 
-			dump = table.remove(event, 1)
-			eType, extra = admin.call(task[event[2]], "transfer", current, unpack(event))
-		else
-			eType, extra = admin.call(task[current], unpack(event))
-		end
-	elseif decision == "admin" then 
-		admin[extra[1]](unpack(extra, 2))
-	elseif decision == "false" then 
-		eType, extra = admin.call(task[current], "false")
-		if eType == "taskManager" then 
-			eType = nil 
+	if current ~= "master" then 
+		decision, extra = admin.call(task.master, "taskManager", current, unpack(event))
+		if decision == "true" then 
+			if event[1] == "transfer" then 
+				dump = table.remove(event, 1)
+				eType, extra = admin.call(task[event[2]], "transfer", current, unpack(event))
+			else
+				eType, extra = admin.call(task[current], unpack(event))
+			end
+		elseif decision == "admin" then 
+			admin[extra[1]](unpack(extra, 2))
+		elseif decision == "false" then 
+			eType, extra = admin.call(task[current], "false")
+			if eType == "taskManager" then 
+				eType = nil 
+			end
+		else 
+			error("\""..decision.."\" is not a proper condition for event checking.", 0)
 		end
 	else 
-		error("\""..decision.."\" is not a proper condition for event checking.", 0)
+		eType, extra = admin.call(task.master, unpack(event))
 	end
 end
