@@ -51,8 +51,7 @@ function admin.garbage()
 end
 
 --Function to add coroutines to task list. 
-function admin.add(path, name)
-	local newFunc = loadfile(path)
+function admin.add(newFunc, name)
 	assert(name ~= "master", "Tried to create thread with reserved name", 0)
 	if not task[name] then
 		task[name] = coroutine.create(newFunc)
