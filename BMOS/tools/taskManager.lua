@@ -104,11 +104,32 @@ function admin.loadString(block)
 	f()
 end
 
+--Allows the admin to turn out an error message and close the entire system. 
+function admin.error(message)
+	error(message, 0)
+end
+
+--Allows the admin to change how the task manager calls tasks. 
+function admin.setCall(bool)
+	if bool then 
+		admin.call = admin.prun 
+	elseif not bool then 
+		admin.call = admin.run 
+	else
+		error("Usage: admin setCall <boolean>", 0)
+	end
+end
+
+admin.call = admin.run
+
 
 --Starting master program. 
-eType, extra = admin.run(task.master, "info", "master")
+eType, extra = admin.call(task.master, "info", "master")
 admin.current("master")
 while true do
+	if eType == false then 
+		eType, extra = admin.call(admin.master, "error", current, extra[1])
+	end
 	if (eType == "admin") and (current == "master") then 
 		admin[extra[1]](unpack(extra, 2))
 	end
@@ -117,18 +138,18 @@ while true do
 	else
 		event = {os.pullEvent()}
 	end
-	decision, extra = admin.run(task.master, "taskManager", current, unpack(event))
+	decision, extra = admin.call(task.master, "taskManager", current, unpack(event))
 	if decision == "true" then 
 		if event[1] == "transfer" then 
 			dump = table.remove(event, 1)
-			eType, extra = admin.run(task[event[2]], "transfer", current, unpack(event))
+			eType, extra = admin.call(task[event[2]], "transfer", current, unpack(event))
 		else
-			eType, extra = admin.run(task[current], unpack(event))
+			eType, extra = admin.call(task[current], unpack(event))
 		end
 	elseif decision == "admin" then 
 		admin[extra[1]](unpack(extra, 2))
 	elseif decision == "false" then 
-		eType, extra = admin.run(task[current], "false")
+		eType, extra = admin.call(task[current], "false")
 	else 
 		error("\""..decision.."\" is not a proper condition for event checking.", 0)
 	end
