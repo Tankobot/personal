@@ -118,10 +118,14 @@ while true do
 	else
 		event = {os.pullEvent()}
 	end
-	decision, extra = admin.run(task.master, "taskManager", 
-	current, unpack(event))
+	decision, extra = admin.run(task.master, "taskManager", current, unpack(event))
 	if decision == "true" then 
-		eType, extra = admin.run(task[current], unpack(event))
+		if event[1] == "transfer" then 
+			dump = table.remove(event, 1)
+			eType, extra = admin.run(task[event[2]], "transfer", current, unpack(event))
+		else
+			eType, extra = admin.run(task[current], unpack(event))
+		end
 	elseif decision == "admin" then 
 		admin[extra[1]](unpack(extra, 2))
 	elseif decision == "false" then 
