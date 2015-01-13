@@ -140,7 +140,7 @@ while true do
 	end
 	if current ~= "master" then 
 		decision, extra = admin.call(task.master, "taskManager", current, unpack(event))
-		if decision == "true" then 
+		if (decision == "true") or (not decision) then 
 			if event[1] == "transfer" then 
 				dump = table.remove(event, 1)
 				eType, extra = admin.call(task[event[2]], "transfer", current, unpack(event))
