@@ -56,5 +56,26 @@ end
 
 local function setCall(bool)
 	coroutine.yield("admin", "setCall", bool)
->>>>>>> origin/HEAD
 end
+
+local function master(masterName)
+	coroutine.yield("admin", "master", masterName)
+end 
+
+tskMng = {
+	current = current, 
+	listGet = listGet,
+	garbage = garbage, 
+	add = add,
+	run = run,
+	prun = prun, 
+	addR = addR, 
+	exit = exit,
+	event = event, 
+	loadstring = loadstring, 
+	error = error,
+	setCall = setCall,
+	master = master
+}
+
+return tskMng
