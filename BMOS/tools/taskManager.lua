@@ -5,7 +5,7 @@ Version: 0.1
 --]]
 
 arg = {...}
-assert(arg[1],"Usage: program <path>")
+assert(arg[1] and arg[2],"Usage: program <path> <name>")
 
 --Open program from argument as coroutine and specify it as the master coroutine. 
 masterFunc = loadfile(arg[1])
@@ -14,6 +14,8 @@ masterFunc = loadfile(arg[1])
 --Create the task table and add the master coroutine to it. 
 local task = {}
 task["master"] = coroutine.create(masterFunc)
+task["masterName"] = arg[2]
+task[arg[2]] = task.master
 
 
 --Create admin table. 
@@ -120,10 +122,11 @@ function admin.setCall(bool)
 	end
 end
 
-function admin.master(newMaster)
-	assert(task[newMaster], "The new master task does not exist.")
-	assert(task[newMaster] ~= task.master, "That task is already the master task.")
-	--TODO
+function admin.master(masterName)
+	assert(task[masterName], "The new master task does not exist.")
+	assert(task[masterName] ~= task.master, "That task is already the master task.")
+	task.masterName = masterName 
+	task.master = task.masterName 
 end
 
 admin.call = admin.run
