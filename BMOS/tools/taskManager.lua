@@ -131,7 +131,10 @@ while true do
 		eType, extra = admin.call(admin.master, "error", current, extra[1])
 	end
 	if (eType == "admin") and (current == "master") then 
-		admin[extra[1]](unpack(extra, 2))
+		info = {admin[extra[1]](unpack(extra, 2))}
+		if info then 
+			admin.call(task.master, "admin", unpack(info))
+		end
 	end
 	if coroutine.status(task.master) == "dead" then 
 		error("Master thread is now dead.", 0)
