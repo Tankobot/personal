@@ -133,7 +133,7 @@ while true do
 	if (eType == "admin") and (current == "master") then 
 		info = {admin[extra[1]](unpack(extra, 2))}
 		if info then 
-			admin.call(task.master, "admin", unpack(info))
+			eType, extra = admin.call(task.master, "admin", unpack(info))
 		end
 	end
 	if coroutine.status(task.master) == "dead" then 
