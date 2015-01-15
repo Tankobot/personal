@@ -122,7 +122,7 @@ function admin.setCall(bool)
 	end
 end
 
-function admin.master(masterName)
+function admin.setMaster(masterName)
 	assert(task[masterName], "The new master task does not exist.")
 	assert(task[masterName] ~= task.master, "That task is already the master task.")
 	task.masterName = masterName 

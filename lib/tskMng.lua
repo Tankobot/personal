@@ -58,7 +58,7 @@ local function setCall(bool)
 	coroutine.yield("admin", "setCall", bool)
 end
 
-local function master(masterName)
+local function setMaster(masterName)
 	coroutine.yield("admin", "master", masterName)
 end 
 
@@ -75,7 +75,7 @@ tskMng = {
 	loadstring = loadstring, 
 	error = error,
 	setCall = setCall,
-	master = master
+	setMaster = setMaster
 }
 
 return tskMng
