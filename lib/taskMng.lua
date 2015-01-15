@@ -62,7 +62,7 @@ local function setMaster(masterName)
 	coroutine.yield("admin", "master", masterName)
 end 
 
-tskMng = {
+taskMng = {
 	current = current, 
 	listGet = listGet,
 	garbage = garbage, 
@@ -78,4 +78,4 @@ tskMng = {
 	setMaster = setMaster
 }
 
-return tskMng
+return taskMng
