@@ -62,6 +62,10 @@ local function setMaster(masterName)
 	coroutine.yield("admin", "master", masterName)
 end 
 
+local function transfer(...)
+	os.queueEvent("transfer", ...)
+end
+
 taskMng = {
 	current = current, 
 	listGet = listGet,
@@ -75,7 +79,8 @@ taskMng = {
 	loadstring = loadstring, 
 	error = error,
 	setCall = setCall,
-	setMaster = setMaster
+	setMaster = setMaster,
+	transfer = transfer
 }
 
 return taskMng
