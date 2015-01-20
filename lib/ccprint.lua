@@ -4,12 +4,15 @@ Author: Tankobot (Michael Bradley)
 --]] 
 
 --Window border function. 
-local function create(x,y,w,h,screen) 
+
+ccprint = {obj={}}
+
+local function create(x,y,w,h,screen,index) 
 	bgColor = colors.white 
 	txtColor = colors.black 
 	bordColor = colors.black 
-	if not screen then 
-		screen = peripheral.wrap(screen)
+	if screen then 
+		screen = screen
 	else 
 		screen = term
 	end
@@ -19,4 +22,5 @@ local function create(x,y,w,h,screen)
 		bordColor = bordColor,
 		isColor = screen.isColor()
 	)
+	screen.windows
 end
