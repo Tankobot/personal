@@ -13,7 +13,7 @@ repLocation = arg[1]
 saveLocation = arg[2]
 
 print("Starting to retrieve file from GitHub.")
-dump raw = pcall(http.get, "https://raw.githubusercontent.com/"..repLocation)
+dump, raw = pcall(http.get, "https://raw.githubusercontent.com/"..repLocation)
 if raw == false then 
 	error("Failed to retrieve file from remote server.")
 end
