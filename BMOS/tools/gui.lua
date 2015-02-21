@@ -11,32 +11,43 @@ local function draw(self) --Redraws the screen including any changes to the gui 
 			term.setCursorPos(obj.x,obj.y)
 			term.setBackgroundColor(obj.bg)
 			term.setTextColor(obj.fg)
-			diff = obj.l-obj.text 
+			diff = obj.l-#obj.text 
 			if diff < 0 then
 				error("Text is too long for object. ID: "..obj.id)
 			end
 			for i=0, obj.l-1 do
 				for j=0, obj.h-1 do
-					term.setCursorPos(obj.x+i, obj.y+h)
-					term.
+					term.setCursorPos(obj.x+i, obj.y+j)
+					term.write(" ")
 				end
 			end
+			term.setCursorPos(obj.x+obj.tx-1, obj.y+obj.ty-1)
+			term.write(obj.text)
 		end
 	end
 end
 
 local function add(self, x, y, l, h) --Allows for the addition of a new gui object into the set. 
+	local id = #self.obj+1
 	local button = {
 		id = #self.obj+1,
 		x = x,
 		y = y,
 		l = l,
-		h = h
+		h = h,
+		
+		bg = colors.white,
+		fg = colors.black,
+		cc = colors.yellow,
+		text = "",
+		tx = 1,
+		ty = 1
 	}
 	if #self.obj+1>self.lastid then 
 		self.lastid = #self.obj+1
 	end
 	self.obj[id] = button
+	return id
 end
 
 local function rm(self, id) --Allows for the removal of a gui object. 
@@ -76,6 +87,7 @@ local function createSet(monitor) --Allows for the creation of a gui set.
 		add = add,
 		rm = rm,
 		set = set,
+		setText = setText,
 		move = move,
 		clear = clear,
 		lastid = 0
