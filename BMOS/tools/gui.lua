@@ -9,7 +9,11 @@ local function draw(self) --Redraws the screen including any changes to the gui 
 		local obj = self.obj[id]
 		if obj then
 			term.setCursorPos(obj.x,obj.y)
-			term.setBackgroundColor(obj.bg)
+			if obj.click then
+				term.setBackgroundColor(obj.cc)
+			else
+				term.setBackgroundColor(obj.bg)
+			end
 			term.setTextColor(obj.fg)
 			diff = obj.l-#obj.text 
 			if diff < 0 then
@@ -41,7 +45,8 @@ local function add(self, x, y, l, h) --Allows for the addition of a new gui obje
 		cc = colors.yellow,
 		text = "",
 		tx = 1,
-		ty = 1
+		ty = 1,
+		click = false
 	}
 	if #self.obj+1>self.lastid then 
 		self.lastid = #self.obj+1
@@ -67,6 +72,10 @@ local function setText(self, id, text, x, y)
 	obj.ty = y
 end
 
+local function timer(self, id, tID)
+	self.timeID[tID]=id
+end
+
 local function repos(self, id, x, y, l, w) --Allows for the translocation of a gui object. 
 	self.obj[id].x = x
 	self.obj[id].y = y
@@ -80,9 +89,30 @@ local function clear(self) --Allows for the removal of all gui objects in a gui 
 	self.lastid = 0
 end
 
+local function checkSet(self, event, wait) 
+	for i=self.lastid, 1, -1 do 
+		local obj = self.obj[i]
+		if obj then
+			if ((obj.x <= event[3]) and (obj.x+obj.l >= event[3])) and ((obj.y <= event[4]) and (obj.y+obj.h >= event[4])) then
+				obj.click = true
+				alarm = os.startTimer(wait)
+				self.timeID[alarm] = obj.id
+				return true, obj.id
+			end
+		end
+	end
+end
+
+local function checkTime(self, alarm)
+	local timer = alarm[2]
+	local id = self.timeID[timer]
+	self.obj[id].click = false
+end
+
 local function createSet(monitor) --Allows for the creation of a gui set. 
 	local tab = {
 		obj = {},
+		timeID = {},
 		draw = draw,
 		add = add,
 		rm = rm,
@@ -90,6 +120,9 @@ local function createSet(monitor) --Allows for the creation of a gui set.
 		setText = setText,
 		move = move,
 		clear = clear,
+		timer = timer,
+		checkSet = checkSet,
+		checkTime = checkTime,
 		lastid = 0
 	}
 	if monitor then 
@@ -98,12 +131,6 @@ local function createSet(monitor) --Allows for the creation of a gui set.
 		tab.term = term
 	end
 	return tab
-end
-
-local function checkSet(self, event) 
-	for i=self.lastid, 1, -1 do 
-		--TODO
-	end
 end
 
 local function drawLayers(...)
