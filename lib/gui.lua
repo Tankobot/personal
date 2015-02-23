@@ -93,7 +93,7 @@ local function checkSet(self, event, wait)
 	for i=self.lastid, 1, -1 do 
 		local obj = self.obj[i]
 		if obj then
-			if ((obj.x <= event[3]) and (obj.x+obj.l >= event[3])) and ((obj.y <= event[4]) and (obj.y+obj.h >= event[4])) then
+			if ((obj.x <= event[3]) and (obj.x+obj.l-1 >= event[3])) and ((obj.y <= event[4]) and (obj.y+obj.h-1 >= event[4])) then
 				obj.click = true
 				alarm = os.startTimer(wait)
 				self.timeID[alarm] = obj.id
@@ -106,7 +106,10 @@ end
 local function checkTime(self, alarm)
 	local timer = alarm[2]
 	local id = self.timeID[timer]
-	self.obj[id].click = false
+	if self.obj[id] then
+		self.obj[id].click = false
+		return true
+	end
 end
 
 local function createSet(monitor) --Allows for the creation of a gui set. 
