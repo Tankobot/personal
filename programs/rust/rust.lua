@@ -6,4 +6,4 @@ Version: 1.0
 Test: Testing
 --]]
 
-gui = os.loadlib("gui.lua")
+gui = dofile("gui.lua")
