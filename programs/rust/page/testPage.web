@@ -1,0 +1,7 @@
+--Testing Page 
+
+page = web.newPage()
+page.title = "Bot's Test Page!" 
+page.description = "This is a small test page that isn't very interesting." 
+
+page:raw("This is basic raw format which lets the browser know that no special formating will be involved in this page.") 
