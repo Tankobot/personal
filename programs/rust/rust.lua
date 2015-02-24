@@ -5,3 +5,5 @@ Description: Rust is an internet browser that can be used to view webpages and d
 Version: 1.0
 Test: Testing
 --]]
+
+gui = os.loadlib("gui.lua")
