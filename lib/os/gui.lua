@@ -112,6 +112,16 @@ local function checkTime(self, alarm)
 	end
 end
 
+local function img(image, x, y)
+	for i=1, #image do 
+		for j=1, #image[i] do 
+			--TODO
+		end
+	end
+end
+
+--Global GUI Functions
+
 local function createSet(monitor) --Allows for the creation of a gui set. 
 	local tab = {
 		obj = {},
