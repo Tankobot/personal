@@ -6,4 +6,5 @@ Version: 1.0
 Test: Testing
 --]]
 
-gui = dofile("gui.lua")
+gui = loadlib("gui.lua")
+web = loadlib("web.lua")
