@@ -113,6 +113,7 @@ local function checkTime(self, alarm)
 end
 
 local function img(image, x, y)
+	assert(image.type == "cci", "Image is not a supported format.")
 	for i=1, #image do 
 		for j=1, #image[i] do 
 			--TODO
