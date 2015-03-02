@@ -77,10 +77,11 @@ local function printCCI(tableFile,x,y)
     end
 end
 
-codec = {
+local codec = {
 	colorkey=colorkey,
 	convert=convert,
 	decode=decode,
-	encode=encode,
-	printCCI
+	encode=encode
 }
+
+return codec
