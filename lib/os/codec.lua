@@ -66,6 +66,7 @@ local function encode(tableFile)
     --TODO 
 end
 
+--Inefficient way of easily rendering a cc image to the screen. 
 local function printCCI(tableFile,x,y)
     for i=1,#tableFile do 
         term.setCursorPos(x,y-1+i)
@@ -81,7 +82,8 @@ local codec = {
 	colorkey=colorkey,
 	convert=convert,
 	decode=decode,
-	encode=encode
+	encode=encode,
+	printCCI=printCCI
 }
 
 return codec
