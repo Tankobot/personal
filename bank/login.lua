@@ -6,12 +6,12 @@ while true do
 	local user = read()
 	write("Password:")
 	local pass = read("")
-	file = fs.open("/users/"..user, "r")
+	file = fs.open("/user/"..user, "r")
 	if file then 
 		linePass = file.readLine()
 		linePass = string.sub(linePass, string.find(linePass, "#")+1)
 		if pass == linePass then 
-			func = loadfile("/users/"..user)
+			func = loadfile("/user/"..user)
 			start = func()
 		else
 			print("Failed to login.")
