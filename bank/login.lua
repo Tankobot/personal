@@ -5,8 +5,8 @@ while true do
 	write("Username:")
 	local user = read()
 	write("Password:")
-	local pass = read()
-	check, file = pcall(fs.open, "/users/"..user)
+	local pass = read("")
+	check, file = pcall(fs.open, "/users/"..user, "r")
 	if check == true then 
 		linePass = file.readLine()
 		linePass = string.sub(linePass, string.find(linePass, "#")+1)
