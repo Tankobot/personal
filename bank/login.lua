@@ -11,7 +11,7 @@ while true do
 		linePass = file.readLine()
 		linePass = string.sub(linePass, string.find(linePass, "#")+1)
 		if pass == linePass then 
-			func = loadfile(/users/"..user)
+			func = loadfile("/users/"..user)
 			start = func()
 		else
 			print("Failed to login.")
