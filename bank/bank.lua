@@ -8,8 +8,7 @@ assert(arg[1], "No arguments have been given.")
 --Specifying APIs by name. 
 lib = "lib/"
 apis = {
-	"bankFunc.lua",
-	"argSorter.lua"
+	"bankFunc.lua"
 }
 
 --Loading required APIs. 
