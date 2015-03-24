@@ -2,10 +2,12 @@
 
 function cycle(tab, num, bool)
 	for i=1, #tab do 
-		if bool then 
+		if op == 1 then 
+			tab[i] = tab[i]+num
+		elseif op == 2 then 
+			tab[i] = tab[i]-num 
+		elseif op == 3 then
 			tab[i] = tab[i]*num
-		else
-			tab[i] = tab[i]-num
 		end
 	end
 	return tab
@@ -21,17 +23,13 @@ function encryptFunc(str, num)
 	
 	--Apply encryption to each byte of string. 
 	num = tostring(num)
-	local bool = true
 	for i=1, #num do 
+		local op = math.random(1,3) --TODO
 		tab = cycle(tab, string.sub(num, i), bool)
-		if bool then bool = false else bool = true end
 	end
 	
 	--String together bytes as characters. 
-	newstring = ""
-	for i=1, #tab do 
-		newstring = newstring..string.char(tab[i])
-	end
+	newstring = string.char(unpack(tab))
 	
 	return newstring
 end
@@ -41,5 +39,8 @@ function decrypt(str, num)
 end
 
 local encryt = {
-	encrypt = encryptFunc
+	encrypt = encryptFunc,
+	decrypt = decrypt
 }
+
+return encrypt 
