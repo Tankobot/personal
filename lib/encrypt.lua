@@ -1,16 +1,7 @@
 --Set of functions to encrypt and decrypt data/strings. 
 
-function cycle(tab, num, bool)
-	for i=1, #tab do 
-		if op == 1 then 
-			tab[i] = tab[i]+num
-		elseif op == 2 then 
-			tab[i] = tab[i]-num 
-		elseif op == 3 then
-			tab[i] = tab[i]*num
-		end
-	end
-	return tab
+function genMatrix(tab, num, bool)
+	--TODO
 end
 
 function encryptFunc(str, num)
