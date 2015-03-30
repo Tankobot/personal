@@ -2,6 +2,8 @@
 
 local arg = {...} 
 local bits = {}
+local MIN 
+local MAX 
 
 local file = io.open(arg[1], "r") 
 
