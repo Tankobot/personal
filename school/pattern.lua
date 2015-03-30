@@ -4,6 +4,7 @@ local arg = {...}
 local bits = {}
 local MIN 
 local MAX 
+local TOT = 0 
 
 local file = io.open(arg[1], "r") 
 
@@ -13,10 +14,11 @@ for line in file:lines() do
 	else 
 		bits[line] = bits[line] + 1 
 	end
+	TOT = TOT + 1 
 end
 
 for i, v in pairs(bits) do 
-	print(i..": "..v) 
+	print(i..": "..v, "Perc: "..v/TOT*100) 
 	if (not MIN) or (not MAX) then 
 		MIN = v 
 		MAX = v
