@@ -11,6 +11,9 @@ for i=1, arg[1] do
 	end
 	for piece = 1, #BYTE do 
 		file:write(BYTE[piece])
+		if arg[3] then 
+			io.write(BYTE[piece])
+		end
 	end
 	file:write("\n")
 end
