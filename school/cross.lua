@@ -13,14 +13,22 @@ local function draw(tab)
 	end
 end
 
-local function foil(...) 
+local function dist(...) 
+	local result = {}
 	local arg = {...}
-	local num = #arg
-	assert(num > 1, "Not enough strings.")
-	for i=1, num-1 do 
-		local a, b = arg[i], arg[i+1] 
-		--TODO
+	assert(#arg > 1, "Not enough strings.")
+	for num=1, #arg-1 do 
+		local a, b = arg[1], arg[2]
+		for i=1, #a do 
+			for j=1, #b do 
+				result[#result+1] = a:sub(i,i)..b:sub(j,j)
+				print(result[#result])
+			end
+		end
+		table.remove(arg, 1)
+		arg[1] = table.concat(
 	end
+	return table.concat(result, ";"), result
 end
 
 --[[ ]]--
