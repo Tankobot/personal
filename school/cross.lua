@@ -15,8 +15,15 @@ end
 
 local function dist(...) 
 	local result = {}
-	local arg = {...}
-	assert(#arg > 1, "Not enough strings.")
+	local dup = {...}
+	local arg = {}
+	if #dup == 1 then 
+		for i=1, #dup[1]/2 do 
+			arg[i] = dup[1]:sub(2*i-1,2*i)
+		end
+	else 
+		arg = dup
+	end
 	for num=1, #arg-1 do 
 		result = {}
 		local a, b = arg[1], arg[2]
