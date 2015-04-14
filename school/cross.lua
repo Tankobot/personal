@@ -18,15 +18,15 @@ local function dist(...)
 	local arg = {...}
 	assert(#arg > 1, "Not enough strings.")
 	for num=1, #arg-1 do 
+		result = {}
 		local a, b = arg[1], arg[2]
-		for i=1, #a do 
+		for i=1, #a/num do 
 			for j=1, #b do 
-				result[#result+1] = a:sub(i,i)..b:sub(j,j)
-				print(result[#result])
+				result[#result+1] = a:sub(i,i+num-1)..b:sub(j,j)
 			end
 		end
 		table.remove(arg, 1)
-		arg[1] = table.concat(
+		arg[1] = table.concat(result)
 	end
 	return table.concat(result, ";"), result
 end
