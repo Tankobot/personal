@@ -21,6 +21,6 @@ local function create(x,y,w,h,screen,index)
 		txtColor = txtColor,
 		bordColor = bordColor,
 		isColor = screen.isColor()
-	)
-	screen.windows
+	}
+	screen.windows = {}
 end
