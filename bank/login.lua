@@ -28,7 +28,7 @@ while true do
 			end
 			local file = fs.open("user/"..info, "w")
 			file.write([[-- #]]..newpass.."\nfunction func()\n"..
-				"dofile('perm/default',"..info..")\n"
+				"dofile('perm/default',"..info..")\n"..
 				"end")
 			file.close()
 		end
