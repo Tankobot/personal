@@ -1,6 +1,9 @@
-a = {}
-en = io.read()
-lim=io.read()-en+1
+local a = {}
+local en = io.read()
+local lim=io.read()-en+1
+local a
+local b
+local j
 
 for i=1, lim do
     a[i]=en+i-1
@@ -24,12 +27,12 @@ for i=1,#a do
     end
 end
 
-file = io.open("seq.dat")
+local handle = io.open("info.dat")
 
 for i=1,#a do 
-	file:write(a[i])
-	file:flush()
+	handle:write(a[i])
+	handle:flush()
     print(a[i],i==a[i])
 end
 
-file:close()
+handle:close()
