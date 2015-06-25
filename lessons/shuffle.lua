@@ -1,7 +1,6 @@
 local a = {}
 local en = io.read()
 local lim=io.read()-en+1
-local a
 local b
 local j
 
@@ -27,7 +26,7 @@ for i=1,#a do
     end
 end
 
-local handle = io.open("info.dat")
+local handle = io.open("info.dat", "w")
 
 for i=1,#a do 
 	handle:write(a[i])
