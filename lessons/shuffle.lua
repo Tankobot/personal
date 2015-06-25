@@ -29,7 +29,7 @@ end
 local handle = io.open("info.dat", "w")
 
 for i=1,#a do 
-	handle:write(a[i])
+	handle:write(a[i].."\n")
 	handle:flush()
     print(a[i],i==a[i])
 end
