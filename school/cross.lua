@@ -3,6 +3,7 @@
 local arg = {...} 
 local gam = {}
 local tab = {}
+local _dump
 
 local function draw(tab) 
 	for i=1, #tab do 
@@ -36,6 +37,25 @@ local function dist(...)
 		arg[1] = table.concat(result)
 	end
 	return table.concat(result, ";"), result
+end
+
+local function index(tab, ...) 
+	local arg = {...}
+	for i=1, #arg do
+		--TODO
+	end
+end
+
+local function getIndex(tab)
+	--Iterate over table in a diagonal order :: TODO
+end
+
+local function punnett(...)
+	local arg = {...}
+	assert(#arg<=2, "Only two gamete sets supported as of now.") 
+	local i, j, num = 1, 1, 1
+	local tab = {}
+	--Infinitely Dimensional Index :: TODO
 end
 
 --[[ ]]--
