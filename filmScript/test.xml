@@ -1,1 +1,13 @@
-
+<script>
+	<title>Example XML Film Script</title>
+	<body>
+		<scene>INT. COFFEE SHOP</scene>
+		<action>
+			JOHN walks over to SUSAN with apprehension in his eyes. 
+		</action>
+		<char>John</char>
+		<talk>Hello!</talk>
+		<char>Susan</char>
+		<talk>Hi!</talk>
+	</body>
+</script>
