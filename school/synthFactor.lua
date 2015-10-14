@@ -18,7 +18,7 @@ end
 local state
 local factoring = true
 while factoring do
-	resN = {unpack(resL)}
+	resN = {table.unpack(resL)}
 	for i=1, #divisors do
 		state, resN = factor(resL, divisors[i], resN)
 		print("###")
