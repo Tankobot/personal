@@ -28,7 +28,7 @@ local factoring = true
 while factoring do
 	resL = {table.unpack(resN)}
 	mid = {0}
-	if #resL==1 then
+	if #resL==2 then
 		break
 	end
 	for i=1, #divisors do
