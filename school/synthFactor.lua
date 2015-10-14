@@ -8,8 +8,6 @@ for i=1, c do
 	divisors[#divisors+1]=-divisors[i]
 end
 
-print(table.unpack(divisors))
-
 local function factor(coeff, divisor, res)
 	print(divisor)
 	for i=1, #coeff-1 do
