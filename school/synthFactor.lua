@@ -16,7 +16,7 @@ local function factor(coeff, divisor, res)
 	end
 	if res[#res]==0 then
 		res[#res] = nil
-		print("Factored")
+		print("#### Factored")
 		return true, res
 	else
 		return false
@@ -32,7 +32,7 @@ while factoring do
 		break
 	end
 	for i=1, #divisors do
-		print("###")
+		print("____")
 		state = factor(resL, divisors[i], resN)
 		print(table.unpack(resL))
 		print(table.unpack(mid))
