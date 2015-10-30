@@ -1,22 +1,31 @@
 --[[
 Title: Matrix Library 
-Reason: Lua does not natively support matrices without excessive programming. 
 Author: Tankobot (Michael Bradley) 
 --]] 
 
-local function bool(a, ...)
-	if a then
-		return true, bool(...)
-	elseif a == nil then
-		return false
-	end
+local matrix = {}
+local version = "1.0.13"
+
+<<<<<<< HEAD
+local function matrix:create(dim) --Create matrix object. 
+	local obj = {}
+	local obj["index"] = {}
+	local obj["data"] = {}
+	local obj["type"] = "Matrix: "..version
+	local obj["dim"] = dim
 end
 
-local meta = {}
-local matrix = {}
-local mt = matrix
-local eval = luaL_dostring
+local function matrix:getIndex(dim) --Retrieve index of all objects based on a certain dimension. 
+	--TODO
+end
 
+local function matrix:index(entry, ...) --Assign an object to the indexes of the matrix. 
+	local arg = {...}
+	self[arg[1]]--TODO
+end
+
+local function matrix:set(entry, ...) --Set data object in matrix. (...) must have #arguments equal to of dims. 
+=======
 function a.create(dim) --Create matrix object. 
 	--TODO
 end
@@ -36,5 +45,6 @@ function mt:index(entry, ...) --Add an object to the indexes of the matrix.
 end
 
 function mt:set(entry, ...) --Set data object in matrix. must have #arguments equal to of dims. 
+>>>>>>> origin/HEAD
 	--TODO
 end
