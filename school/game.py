@@ -1,18 +1,21 @@
-print(r'
-Welcome to Mover! 
-Move around by pressing a sequence of wasd commands then hitting enter.
-The commands will be interpreted in the order typed. 
-')
+import random
 
-loadsave = input('Save data (or hit enter for new):')
+print('''
+Welcome to Mover!
+Move around by pressing a sequence of wasd commands then hitting enter.
+The commands will be interpreted in the order typed.
+''')
+
+loadsave = input('Save data (or hit enter for new save):')
 if len(loadsave):
   oldsave = loadsave.split('|')
   pad = eval(oldsave[0])
+  cmdcount = eval(oldsave[2])
 else:
   oldsave = None
   difficulty = int(input('Difficulty [1, 9]: '))
   assert((difficulty <= 9) and (difficulty >= 1))
-  
+
   pad = [[False for i in range(3)] for i in range(3)]
 
 def crunch():
@@ -42,7 +45,9 @@ def pop(x, y):
 
 class Error(Exception):
   print('An error has occurred. Here is a representation of the current game.')
-  print(repr(pad) + '|' + repr(player.loc))
+  print(repr(pad) + '|' +
+      repr(player.loc) + '|' +
+      str(cmdcount))
 
 class InputError(Error):
   def __init__(self, message):
@@ -55,7 +60,7 @@ class player:
   def __init__(self):
     if oldsave:
       self.loc = eval(oldsave[1])
-  
+
   # Player Movement
   def move(self, commands):
     cmds = []
@@ -64,25 +69,35 @@ class player:
       cmds.append(commands[i])
     del commands
     # Iterate over list of commands
+    x = self.loc[0]
+    y = self.loc[1]
     for i in cmds:
-      x = self.loc[0]
-      y = self.loc[1]
-      if i == 's':  # Move down
-        self.loc[1] = y + 1
-      elif i == 'w':# Move up
-        self.loc[1] = y - 1
-      elif i == 'a':# Move right
-        self.loc[0] = x + 1
-      elif i == 'd':# Move left
-        self.loc[0] = x - 1
+      if (i == 's') and (y < difficulty):    # Move down
+        self.loc[1] += 1
+      elif (i == 'w') and (y > difficulty):  # Move up
+        self.loc[1] -= 1
+      elif (i == 'a') and (x < difficulty):  # Move right
+        self.loc[0] += 1
+      elif (i == 'd') and (x > difficulty):  # Move left
+        self.loc[0] -= 1
       else
         raise InputError('Unknown command entered.')
       pop(self.loc[0], self.loc[1])
-  
-  def random(self, amount):
-    
-# Setup bot
+    cmdcount += 1
+
+  def scramble(self):
+    possible = ['w', 'a', 's', 'd']
+    cmdlist = ''
+    for i in range(difficulty*9):
+      cmdlist += possible[random.randint(0,3)]
+    self.move(cmdlist)
+
+# Setup game
 bot = player()
+if oldsave:
+  bot.scramble()
 # Main Game Loop
 while True:
-  
+  print('Pad:')
+  draw()
+  break # Temporary
