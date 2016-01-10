@@ -12,6 +12,8 @@ if len(loadSave):
     oldSave = loadSave.split('|')
     pad = eval(oldSave[0])
     commandCount = eval(oldSave[2])
+    initialCrunch = eval(oldSave[3])
+    difficulty = eval(oldSave[4])
 else:
     oldSave = None
     commandCount = 0
@@ -71,7 +73,8 @@ class Error(Exception):
               repr(pad) + '|' +
               repr(bot.loc) + '|' +
               str(commandCount) + '|' +
-              str(initialCrunch))
+              str(initialCrunch) + '|' +
+              str(difficulty))
 
 
 class InputError(Error):
@@ -108,9 +111,8 @@ class Player:
             elif i in {'w', 'a', 's', 'd'}:
                 pass
             else:
-                print(i + ',' + str(x) + ',' + str(y))
                 raise InputError('Unknown command entered.')
-            print('pop(', x, y, ')')
+            # print('pop(', x, y, ')')
             pop(y, x)
 
     def scramble(self):
@@ -123,13 +125,13 @@ class Player:
 
 # Setup game
 bot = Player()
-if oldSave:
+if not oldSave:
     bot.scramble()
-initialCrunch = crunch()
+    initialCrunch = crunch()
 # Main Game Loop
 while True:
     score = crunch()
-    if not True:  # Temp pass
+    if not score:  # Temp pass
         print('You solved a ' +
               str(difficulty) + 'x' + str(difficulty) + ' in ' + str(commandCount) +
               ' moves from an initial crunch of ' + str(initialCrunch) + '!')
