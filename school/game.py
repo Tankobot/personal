@@ -31,13 +31,6 @@ def crunch():
     return unsolved
 
 
-def tonum(input_list):
-    out_list = []
-    for i in input_list:
-        out_list.append(str(int(i)))
-    return out_list
-
-
 def draw():
     y_num = 0
     for row in pad:
