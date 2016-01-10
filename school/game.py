@@ -37,38 +37,41 @@ def tonum(input_list):
 
 
 def draw():
-    y_list = []
-    for i in range(difficulty):
-        y_list.append(''.join(tonum(pad[i])))
     y_num = 0
-    for y_string in y_list:
+    for row in pad:
         x_num = 0
-        for x_character in y_string:
+        for column in row:
+            state = int(column)
             if (x_num == bot.loc[0]) and (y_num == bot.loc[1]):
-                if int(x_character):
+                if state:
                     print('I', end='')
                 else:
-                    print('Q', end='')
+                    print('G', end='')
             else:
-                print(x_character, end='')
+                print(str(state), end='')
             x_num += 1
         print()
         y_num += 1
 
 
 def pop(x, y):
-    pad[x][(y + 1) % difficulty] = not pad[x][(y + 1) % difficulty]
-    pad[x][(y - 1) % difficulty] = not pad[x][(y - 1) % difficulty]
-    pad[(x + 1) % difficulty][y] = not pad[(x + 1) % difficulty][y]
-    pad[(x - 1) % difficulty][y] = not pad[(x - 1) % difficulty][y]
+    if y < difficulty - 1:
+        pad[x][y + 1] = not pad[x][y + 1]
+    if y > 0:
+        pad[x][y - 1] = not pad[x][y - 1]
+    if x < difficulty - 1:
+        pad[x + 1][y] = not pad[x + 1][y]
+    if x > 0:
+        pad[x - 1][y] = not pad[x - 1][y]
 
 
 class Error(Exception):
     def __init__(self):
-        print('An error has occurred. Here is a representation of the current game.')
-        print(repr(pad) + '|' +
+        print('An error has occurred. Here is a representation of the current game.\n' +
+              repr(pad) + '|' +
               repr(bot.loc) + '|' +
-              str(commandCount))
+              str(commandCount) + '|' +
+              str(initialCrunch))
 
 
 class InputError(Error):
@@ -90,22 +93,25 @@ class Player:
         # Separate string of commands into usable list
         for i in range(len(commands)):
             commands_list.append(commands[i])
-        del commands
         # Iterate over list of commands
-        x = self.loc[0]
-        y = self.loc[1]
         for i in commands_list:
-            if (i == 's') and (y < difficulty):    # Move down
+            x = self.loc[0]
+            y = self.loc[1]
+            if (i == 's') and (y < difficulty - 1):    # Move down
                 self.loc[1] += 1
-            elif (i == 'w') and (y > difficulty):  # Move up
+            elif (i == 'w') and (y > 0):  # Move up
                 self.loc[1] -= 1
-            elif (i == 'a') and (x < difficulty):  # Move right
+            elif (i == 'd') and (x < difficulty - 1):  # Move right
                 self.loc[0] += 1
-            elif (i == 'd') and (x > difficulty):  # Move left
+            elif (i == 'a') and (x > 0):  # Move left
                 self.loc[0] -= 1
+            elif i in {'w', 'a', 's', 'd'}:
+                pass
             else:
+                print(i + ',' + str(x) + ',' + str(y))
                 raise InputError('Unknown command entered.')
-            pop(x, y)
+            print('pop(', x, y, ')')
+            pop(y, x)
 
     def scramble(self):
         possible = ['w', 'a', 's', 'd']
@@ -119,11 +125,20 @@ class Player:
 bot = Player()
 if oldSave:
     bot.scramble()
+initialCrunch = crunch()
 # Main Game Loop
 while True:
-    print('Pad:')
+    score = crunch()
+    if not True:  # Temp pass
+        print('You solved a ' +
+              str(difficulty) + 'x' + str(difficulty) + ' in ' + str(commandCount) +
+              ' moves from an initial crunch of ' + str(initialCrunch) + '!')
+        break
+    print()
     draw()
+    print(repr(bot.loc))
+    print('Count: ' + str(commandCount))
+    print('Crunch: ' + str(score))
     user_input = input('Commands:')
     bot.move(user_input)
     commandCount += 1
-    # break  # Temporary
