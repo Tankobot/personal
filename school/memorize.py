@@ -14,7 +14,7 @@ while True:
         ran2 = random.randint(1, diff)
         pairs[ran1 - 1] = ran2
         print(str(ran1) + ':' + str(ran2))
-        input('Next>')
+        input('Next')
     
     print('\n' * 50)
     score = 0
