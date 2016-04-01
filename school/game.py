@@ -1,4 +1,6 @@
 import random
+import time
+import sys
 
 print('''
 Welcome to Mover!
@@ -39,13 +41,13 @@ def draw():
             state = int(column)
             if (x_num == bot.loc[0]) and (y_num == bot.loc[1]):
                 if state:
-                    print('I', end='')
+                    print('= ', end='')
                 else:
-                    print('G', end='')
+                    print('T ', end='')
             else:
-                print(str(state), end='')
+                print('-+'[state] + ' ', end='')
             x_num += 1
-        print()
+        print('\n')
         y_num += 1
 
 
@@ -84,13 +86,13 @@ class Player:
             self.loc = eval(oldSave[1])
 
     # Player Movement
-    def move(self, commands):
+    def move(self, commands, iterate=True):
         commands_list = []
         # Separate string of commands into usable list
         for i in range(len(commands)):
             commands_list.append(commands[i])
         # Iterate over list of commands
-        for i in commands_list:
+        for n, i in enumerate(commands_list):
             x = self.loc[0]
             y = self.loc[1]
             if (i == 's') and (y < difficulty - 1):    # Move down
@@ -107,13 +109,25 @@ class Player:
                 raise InputError('Unknown command entered.')
             # print('pop(', x, y, ')')
             pop(y, x)
+            if iterate:
+                print('\n' * 50)
+                draw()
+                if n < len(commands_list):
+                    print('\n')
+                print('\n')
+                sys.stdout.flush()
+                time.sleep(0.2)
+
+        print('\n' * 50)
+        draw()
+        print()
 
     def scramble(self):
         possible = ['w', 'a', 's', 'd']
         command_list = ''
         for i in range(difficulty * 9):
             command_list += possible[random.randint(0, 3)]
-        self.move(command_list)
+        self.move(command_list, iterate=False)
 
 
 # Setup game
@@ -125,15 +139,15 @@ if not oldSave:
 while True:
     score = crunch()
     if not score:  # Temp pass
-        print('You solved a ' +
+        print('\nYou solved a ' +
               str(difficulty) + 'x' + str(difficulty) + ' in ' + str(commandCount) +
               ' moves from an initial crunch of ' + str(initialCrunch) + '!')
         break
-    print()
-    draw()
+    else:
+        pass
     print(repr(bot.loc))
     print('Count: ' + str(commandCount))
     print('Crunch: ' + str(score))
-    user_input = input('Commands:')
+    user_input = input('Commands: ')
     bot.move(user_input)
     commandCount += 1
